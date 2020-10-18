@@ -8,7 +8,6 @@ class Manhattan_Classifier:
         self.manhattan_data = pd.read_csv("Manhattan.csv")
         self.manhattan_df = pd.DataFrame(self.manhattan_data)
 
-
     def build_manhattan_classifier(self):
         features = self.manhattan_df[['bedrooms', 'bathrooms', 'size_sqft', 'min_to_subway',
         'floor', 'building_age_yrs', 'no_fee', 'has_roofdeck', 'has_washer_dryer', 
@@ -52,11 +51,34 @@ class Brookyln_Classifier:
         self.predict = self.classifier.predict(self.flat_features)
         print("Predicted rent: $%.2f" % self.predict)
 
+class Queens_Classifier:
+    def __init__(self):
+        self.queens_data = pd.read_csv("Queens.csv")
+        self.queens_df = pd.DataFrame(self.queens_data)
+
+    def build_queens_classifier(self):
+        features = self.queens_df[['bedrooms', 'bathrooms', 'size_sqft', 'min_to_subway',
+        'floor', 'building_age_yrs', 'no_fee', 'has_roofdeck', 'has_washer_dryer', 
+        'has_doorman', 'has_elevator', 'has_dishwasher', 'has_patio', 'has_gym']]
+        labels = self.queens_df[['rent']]
+        X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size = 0.2, random_state = 8)
+        self.classifier = LinearRegression()
+        self.classifier.fit(X_train, y_train)
+        return self.classifier
+
+    def predict_queens_price(self, bedrooms, bathrooms, size_sqft, min_to_subway, floor, building_age_yrs,
+     no_fee, has_roofdeck, has_washer_dryer, has_doorman, has_elevator, has_dishwasher, has_patio, has_gym):
+        self.classifier = self.build_queens_classifier()
+        self.flat_features = [[bedrooms, bathrooms, size_sqft, min_to_subway, floor, building_age_yrs,
+     no_fee, has_roofdeck, has_washer_dryer, has_doorman, has_elevator, has_dishwasher, has_patio, has_gym]]
+        self.predict = self.classifier.predict(self.flat_features)
+        print("Predicted rent: $%.2f" % self.predict)
 
 class Choices:
     def __init__(self):
         self.mc = Manhattan_Classifier()
         self.bc = Brookyln_Classifier()
+        self.qc = Queens_Classifier()
 
     def flat_features(self):
         self.bedrooms = int(input("Please enter Number of bedrooms in the flat "))
@@ -77,22 +99,30 @@ class Choices:
         print("Predicting Flat Rent...")
 
     def menu(self):
-        print("Flat Rent Prediction Application")
+        print("Flat Rent Prediction Application for New York")
         print("Please Select an area to predict")
         print("1. Manhattan")
         print("2. Brooklyn")
+        print("3. Queens")
         choice = int(input("Please Enter your choice: "))
+        
         if choice == 1:
             self.flat_features()
             self.mc.predict_manhattan_price(self.bedrooms, self.bathrooms, self.size_sqft, self.min_to_subway, self.floor, self.building_age_yrs, 
         self.no_fee,self.has_roofdeck, self.has_washer_dryer, self.has_doorman, self.has_elevator, 
         self.has_dishwasher, self.has_patio, self.has_gym)
+
         if choice == 2:
             self.flat_features()
             self.bc.predict_brooklyn_price(self.bedrooms, self.bathrooms, self.size_sqft, self.min_to_subway, self.floor, self.building_age_yrs, 
         self.no_fee,self.has_roofdeck, self.has_washer_dryer, self.has_doorman, self.has_elevator, 
         self.has_dishwasher, self.has_patio, self.has_gym)
 
+        if choice == 3:
+            self.flat_features()
+            self.qc.predict_queens_price(self.bedrooms, self.bathrooms, self.size_sqft, self.min_to_subway, self.floor, self.building_age_yrs, 
+        self.no_fee,self.has_roofdeck, self.has_washer_dryer, self.has_doorman, self.has_elevator, 
+        self.has_dishwasher, self.has_patio, self.has_gym)
         else:
             self.menu()
 
