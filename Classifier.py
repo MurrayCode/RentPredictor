@@ -32,20 +32,6 @@ class Classifiers:
 
 class Choices:
     def __init__(self):
-        self.bedrooms = 0
-        self.bathrooms = 0
-        self.size_sqft = 0
-        self.min_to_subway = 0 
-        self.floor = 0 
-        self.building_age_yrs = 0 
-        self.no_fee = 0  
-        self.has_roofdeck = 0 
-        self.has_washer_dryer = 0
-        self.has_doorman = 0
-        self.has_elevator = 0
-        self.has_dishwasher = 0 
-        self.has_patio = 0
-        self.has_gym = 0
         self.mc = Classifiers()
 
     def flat_features(self):
@@ -59,13 +45,13 @@ class Choices:
         self.has_roofdeck = int(input("Does building have roof deck 1 = Yes 0 = No "))
         self.has_washer_dryer = int(input("Does the flat have a washer/dryer 1 = Yes 0 = No "))
         self.has_doorman = int(input("Does the building have a doorman 1 = Yes 0 = No "))
-        self.has_elevator = int(input("Does the building have a elevator "))
+        self.has_elevator = int(input("Does the building have a elevator 1 = Yes 0 = No"))
         self.has_dishwasher = int(input("does the flat have a dishwasher 1 = Yes 0 = No "))
         self.has_patio = int(input("Does the flat have a patio 1 = Yes 0 = No "))
         self.has_gym = int(input("Does the Building have a gym 1 = Yes 0 = No "))
         print("************************************************************************")
         print("Predicting Flat Rent...")
-        
+
     def menu(self):
         print("Flat Rent Prediction Application")
         print("Please Select an area to predict")
